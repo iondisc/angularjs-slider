@@ -747,7 +747,7 @@ function throttle(func, wait, options) {
     // Events
 
     /**
-     * Bind mouse and touch events to slider handles
+     * Bind mouse, touch and pointer events to slider handles
      *
      * @returns {undefined}
      */
@@ -758,6 +758,9 @@ function throttle(func, wait, options) {
 
       this.minH.on('touchstart', angular.bind(this, this.onStart, this.minH, 'rzSliderModel'));
       if(this.range) { this.maxH.on('touchstart', angular.bind(this, this.onStart, this.maxH, 'rzSliderHigh')) }
+
+      this.minH.on('pointerdown', angular.bind(this, this.onStart, this.minH, 'rzSliderModel'));
+      if(this.range) { this.maxH.on('pointerdown', angular.bind(this, this.onStart, this.maxH, 'rzSliderHigh')) }
     },
 
     /**
@@ -787,7 +790,11 @@ function throttle(func, wait, options) {
         $document.on('touchmove.rzslider', angular.bind(this, this.onMove, pointer));
         $document.on('touchend.rzslider', angular.bind(this, this.onEnd));
       }
-      else
+      else if (window.PointerEvent){
+		  $document.on('pointermove.rzslider', angular.bind(this, this.onMove, pointer));
+		  $document.on('pointerup.rzslider', angular.bind(this, this.onEnd));
+	  }
+	  else
       {
         $document.on('mousemove.rzslider', angular.bind(this, this.onMove, pointer));
         $document.on('mouseup.rzslider', angular.bind(this, this.onEnd));
@@ -879,6 +886,10 @@ function throttle(func, wait, options) {
         $document.unbind('touchmove.rzslider');
         $document.unbind('touchend.rzslider');
       }
+	  else if (window.PointerEvent){
+		  $document.unbind('pointermove.rzslider');
+		  $document.unbind('pointerup.rzslider');
+	  }
       else
       {
         $document.unbind('mousemove.rzslider');

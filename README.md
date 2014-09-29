@@ -2,7 +2,7 @@
 
 Slider directive implementation for AngularJS, without any dependencies.
 
-- Mobile friendly
+- Mobile friendly, including Surface
 - Fast
 - Well documented
 - Customizable
@@ -140,6 +140,10 @@ You can also force redraw with **rzSliderForceRender** event.
 ```
 
 ## Changelog
+
+**v0.1.7**
+
+	Added support for Surface
 
 **v0.1.3**
 
