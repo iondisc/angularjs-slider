@@ -761,6 +761,9 @@ function throttle(func, wait, options) {
 
       this.minH.on('pointerdown', angular.bind(this, this.onStart, this.minH, 'rzSliderModel'));
       if(this.range) { this.maxH.on('pointerdown', angular.bind(this, this.onStart, this.maxH, 'rzSliderHigh')) }
+
+      this.minH.on('MSPointerDown', angular.bind(this, this.onStart, this.minH, 'rzSliderModel'));
+      if(this.range) { this.maxH.on('MSPointerDown', angular.bind(this, this.onStart, this.maxH, 'rzSliderHigh')) }
     },
 
     /**
@@ -790,9 +793,15 @@ function throttle(func, wait, options) {
         $document.on('touchmove.rzslider', angular.bind(this, this.onMove, pointer));
         $document.on('touchend.rzslider', angular.bind(this, this.onEnd));
       }
-      else if (window.PointerEvent){
+	  else if (window.PointerEvent)
+	  {
 		  $document.on('pointermove.rzslider', angular.bind(this, this.onMove, pointer));
 		  $document.on('pointerup.rzslider', angular.bind(this, this.onEnd));
+	  }
+      else if (window.MSPointerEvent)
+	  {
+		  $document.on('MSPointerMove.rzslider', angular.bind(this, this.onMove, pointer));
+		  $document.on('MSPointerUp.rzslider', angular.bind(this, this.onEnd));
 	  }
 	  else
       {
@@ -889,6 +898,10 @@ function throttle(func, wait, options) {
 	  else if (window.PointerEvent){
 		  $document.unbind('pointermove.rzslider');
 		  $document.unbind('pointerup.rzslider');
+	  }
+	  else if (window.MSPointerEvent){
+		  $document.unbind('MSPointerMove.rzslider');
+		  $document.unbind('MSPointerUp.rzslider');
 	  }
       else
       {
